@@ -38,15 +38,15 @@ const resolvers = {
 
       return { token, user };
     },
-    saveBook: async (parent, { input }, context) => {
+    saveBook: async (parent, args, context) => {
+      console.log("something")
       if (context.user) {
         const updatedUser = await User
           .findOneAndUpdate(
             { _id: context.user._id },
-            { $addToSet: { savedBooks: input } },
+            { $addToSet: { savedBooks: args.input } },
             { new: true },
           )
-          .populate('books');
         return updatedUser;
       };
       throw new AuthenticationError('You need to be logged in!');
